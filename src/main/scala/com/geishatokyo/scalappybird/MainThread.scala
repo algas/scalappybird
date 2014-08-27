@@ -15,19 +15,23 @@ trait GameObject {
   def touchEvent(x: Int, y: Int) = {}
 }
 
+object GameObject {
+  var canvasWidth: Int = _
+  var canvasHeight: Int = _  
+}
+
 class Bird(p: Point) extends GameObject {
 
   var img : Bitmap = null;
-  var point:Point = p
-  var speed:Int = 10
-  val upOffset:Int = -200
-  var enable:Boolean = true
+  var point: Point = p
+  var speed: Int = 10
+  val upOffset: Int = -200
+  var enable: Boolean = true
 
   def initialize(c: Context) = {
     val res:Resources = c.getResources
     img = BitmapFactory.decodeResource(res, R.drawable.bird)
   }
-
 
   def update() {
     
@@ -61,18 +65,41 @@ class Bird(p: Point) extends GameObject {
   }
 }
 
-object GameObject {
-  var canvasWidth: Int = _
-  var canvasHeight: Int = _  
+trait StaticObject extends GameObject {
+  
+  def point: Point
+  def resourceId: Int
+  var img : Bitmap = null;
+  
+  def initialize(c: Context) = {
+    val res:Resources = c.getResources
+    img = BitmapFactory.decodeResource(res, resourceId)
+  }
+  def update() {}
+  def draw(g: Canvas) {
+    val p = new Paint
+    g drawBitmap(img, point.x, point.y, p)
+  }
 }
 
+class Land(p: Point) extends StaticObject {
+  var point: Point = p
+  val resourceId: Int = R.drawable.land
+}
+
+class Sky(p: Point) extends StaticObject {
+  var point: Point = p
+  val resourceId: Int = R.drawable.sky
+}
 
 class MainThread(holder: SurfaceHolder, context: Context) extends Thread {
-  val ctx = context
-  var gameObjects : List[GameObject] = {
-    List(new Bird(new Point(100,0)))
-  }
 
+  // initialize
+  var gameObjects : List[GameObject] = {
+    List(new Sky(Point(0,900-109)),
+         new Land(Point(0,900)),
+         new Bird(Point(100,0)))
+  }
   gameObjects.foreach(_.initialize(context))
 
   val bluishWhite = new Paint
