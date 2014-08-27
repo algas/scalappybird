@@ -83,12 +83,12 @@ trait StaticObject extends GameObject {
 }
 
 class Land(p: Point) extends StaticObject {
-  var point: Point = p
+  val point: Point = p
   val resourceId: Int = R.drawable.land
 }
 
 class Sky(p: Point) extends StaticObject {
-  var point: Point = p
+  val point: Point = p
   val resourceId: Int = R.drawable.sky
 }
 
