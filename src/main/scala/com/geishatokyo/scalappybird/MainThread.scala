@@ -8,30 +8,77 @@ import android.graphics.{Canvas, Paint, Rect, Path, Bitmap, BitmapFactory}
 
 case class Point(var x: Int, var y: Int)
 
-class Bird(p: Point) {
+trait GameObject {
+  def initialize(c: Context)
+  def update() 
+  def draw(g: Canvas)
+  def touchEvent(x: Int, y: Int) = {}
+}
+
+class Bird(p: Point) extends GameObject {
+
+  var img : Bitmap = null;
   var point:Point = p
   var speed:Int = 10
   val upOffset:Int = -200
   var enable:Boolean = true
 
-  def fall() {
+  def initialize(c: Context) = {
+    val res:Resources = c.getResources
+    img = BitmapFactory.decodeResource(res, R.drawable.bird)
+  }
+
+
+  def update() {
+    
+    // falling
     if (enable){
-      this.point.y = this.point.y + this.speed
+      point.y = point.y + speed
+    }
+
+    // dead or alive
+    if(point.y >= GameObject.canvasHeight) {
+      enable = false
     }
   }
+
+  def draw(g: Canvas) {
+    val p = new Paint
+    if (enable){
+     g drawBitmap(img, point.x, point.y, p)
+    } else {
+       val gamePaint = new Paint
+      gamePaint.setARGB(255, 255, 0, 0)
+      gamePaint.setTextSize(64)
+      g drawText ("Game End", 250, GameObject.canvasHeight/2-32, gamePaint)     
+    }
+  }
+
+  override def touchEvent(x: Int, y: Int) = {
+    if (enable){
+      point.y = point.y + upOffset
+    }    
+  }
+}
+
+object GameObject {
+  var canvasWidth: Int = _
+  var canvasHeight: Int = _  
 }
 
 
 class MainThread(holder: SurfaceHolder, context: Context) extends Thread {
   val ctx = context
-  var bird = new Bird(new Point(100,0))
+  var gameObjects : List[GameObject] = {
+    List(new Bird(new Point(100,0)))
+  }
+
+  gameObjects.foreach(_.initialize(context))
 
   val bluishWhite = new Paint
   bluishWhite.setARGB(255, 255, 255, 255)
   val bluishBlack = new Paint
   bluishBlack.setARGB(255, 0, 0, 0)
-  var canvasWidth: Int = _
-  var canvasHeight: Int = _
 
   override def run {
     val quantum = 100
@@ -45,32 +92,28 @@ class MainThread(holder: SurfaceHolder, context: Context) extends Thread {
   }
 
   def game() {
-      action()
-      drawViews()
+      update()
+      draw()
   }
 
-  def drawViews() {
+  def draw() {
     withCanvas { g =>
-      g drawRect (0, 0, canvasWidth, canvasHeight, bluishWhite)
-      drawInfo(g)
-      drawBird(g)
+      g drawRect (0, 0, GameObject.canvasWidth, GameObject.canvasHeight, bluishWhite)
+      gameObjects.foreach(_.draw(g))
     }
   }
 
   def setCanvasSize(w: Int, h: Int) {
-    canvasWidth = w
-    canvasHeight = h
+    GameObject.canvasWidth = w
+    GameObject.canvasHeight = h
   }
 
-  def addTouch(x: Int, y: Int){
-    touchEvent(x, y)
-  }
-
-  def touchEvent(x: Int, y: Int){
-    if (this.bird.enable){
-      this.bird.point.y = this.bird.point.y + this.bird.upOffset
-    }
-  }
+  def addTouch(x: Int, y: Int) {
+    gameObjects.foreach(_.touchEvent(x,y))
+  } 
+  def update() {
+    gameObjects.foreach(_.update())
+  } 
 
   def withCanvas(f: Canvas => Unit) {
     val canvas = holder.lockCanvas(null)
@@ -80,32 +123,4 @@ class MainThread(holder: SurfaceHolder, context: Context) extends Thread {
       holder.unlockCanvasAndPost(canvas)
     }
   }
-
-  def drawInfo(g: Canvas) {
-    val textPaint = new Paint
-    textPaint.setARGB(255, 0, 0, 0)
-    textPaint.setTextSize(48)
-    g drawText ("Scalappy Bird", 250, 100, textPaint)
-    if (this.bird.point.y >= canvasHeight) {
-      val gamePaint = new Paint
-      gamePaint.setARGB(255, 255, 0, 0)
-      gamePaint.setTextSize(64)
-      g drawText ("Game End", 250, canvasHeight/2-32, gamePaint)
-      this.bird.enable = false
-    }
-  }
-
-  def drawBird(g: Canvas) {
-    val p = new Paint
-    val res:Resources = this.ctx.getResources
-    val img = BitmapFactory.decodeResource(res, R.drawable.bird)
-    if (this.bird.enable){
-     g drawBitmap(img, this.bird.point.x, this.bird.point.y, p)
-    }
-  }
-
-  def action() {
-    this.bird.fall    
-  }
-
 }
