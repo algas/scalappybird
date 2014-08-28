@@ -69,7 +69,9 @@ trait StaticGameObject extends GameObject {
   
   def point: Point
   def resourceId: Int
-  var img : Bitmap = null;
+  var img : Bitmap = null
+  lazy val width: Int = img.getWidth
+  lazy val height: Int = img.getHeight
   
   def initialize(c: Context) = {
     val res:Resources = c.getResources
@@ -78,7 +80,9 @@ trait StaticGameObject extends GameObject {
   def update() {}
   def draw(g: Canvas) {
     val p = new Paint
-    g drawBitmap(img, point.x, point.y, p)
+    (0 to GameObject.canvasWidth / width) foreach {i => 
+      g drawBitmap(img, point.x + i * width, point.y, p)
+    }
   }
 }
 
