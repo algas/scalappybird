@@ -69,7 +69,7 @@ trait StaticGameObject extends GameObject {
   
   def point: Point
   def resourceId: Int
-  var img : Bitmap = null
+  var img: Bitmap = null
   lazy val width: Int = img.getWidth
   lazy val height: Int = img.getHeight
   
@@ -80,18 +80,35 @@ trait StaticGameObject extends GameObject {
   def update() {}
   def draw(g: Canvas) {
     val p = new Paint
+    g drawBitmap(img, point.x, point.y, p)
+  }
+}
+
+class PipeUp(p: Point) extends StaticGameObject {
+  val point: Point = p
+  val resourceId: Int = R.drawable.pipeup
+}
+
+class PipeDown(p: Point) extends StaticGameObject {
+  val point: Point = p
+  val resourceId: Int = R.drawable.pipedown  
+}
+
+trait PaddingWidthStaticGameObject extends StaticGameObject {
+  override def draw(g: Canvas) {
+    val p = new Paint
     (0 to GameObject.canvasWidth / width) foreach {i => 
       g drawBitmap(img, point.x + i * width, point.y, p)
     }
   }
 }
 
-class Land(p: Point) extends StaticGameObject {
+class Land(p: Point) extends PaddingWidthStaticGameObject {
   val point: Point = p
   val resourceId: Int = R.drawable.land
 }
 
-class Sky(p: Point) extends StaticGameObject {
+class Sky(p: Point) extends PaddingWidthStaticGameObject {
   val point: Point = p
   val resourceId: Int = R.drawable.sky
 }
@@ -102,6 +119,8 @@ class MainThread(holder: SurfaceHolder, context: Context) extends Thread {
   var gameObjects : List[GameObject] = {
     List(new Sky(Point(0,900-109)),
          new Land(Point(0,900)),
+         new PipeUp(Point(500,760)),
+         new PipeDown(Point(300,0)),
          new Bird(Point(100,0)))
   }
   gameObjects.foreach(_.initialize(context))
