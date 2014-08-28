@@ -65,7 +65,7 @@ class Bird(p: Point) extends GameObject {
   }
 }
 
-trait StaticObject extends GameObject {
+trait StaticGameObject extends GameObject {
   
   def point: Point
   def resourceId: Int
@@ -82,12 +82,12 @@ trait StaticObject extends GameObject {
   }
 }
 
-class Land(p: Point) extends StaticObject {
+class Land(p: Point) extends StaticGameObject {
   val point: Point = p
   val resourceId: Int = R.drawable.land
 }
 
-class Sky(p: Point) extends StaticObject {
+class Sky(p: Point) extends StaticGameObject {
   val point: Point = p
   val resourceId: Int = R.drawable.sky
 }
