@@ -87,6 +87,9 @@ trait StaticGameObject extends GameObject {
 class PipeUp(p: Point) extends StaticGameObject {
   val point: Point = p
   val resourceId: Int = R.drawable.pipeup
+  override def update() {
+    point.y = GameObject.canvasHeight - height
+  }
 }
 
 class PipeDown(p: Point) extends StaticGameObject {
@@ -106,11 +109,17 @@ trait PaddingWidthStaticGameObject extends StaticGameObject {
 class Land(p: Point) extends PaddingWidthStaticGameObject {
   val point: Point = p
   val resourceId: Int = R.drawable.land
+  override def update() {
+    point.y = GameObject.canvasHeight - height
+  }
 }
 
 class Sky(p: Point) extends PaddingWidthStaticGameObject {
   val point: Point = p
   val resourceId: Int = R.drawable.sky
+  override def update() {
+    point.y = GameObject.canvasHeight - height - 112 /* Land height */
+  }  
 }
 
 class MainThread(holder: SurfaceHolder, context: Context) extends Thread {
