@@ -23,11 +23,12 @@ ANDROID_HOME=C:\Users\ (USER_NAME) \AppData\Local\Android\android-sdk
 
 ### Mac OS X
 
-以下のコマンドで Android SDK をインストールします。
-
+1. 以下のコマンドで Android SDK をインストールします。  
 ```
 brew install android-sdk
-```
+```  
+2. 環境変数で ANDROID_HOME を設定する。  
+ANDROID_HOME=/usr/local/Cellar/android-sdk/(version)/
 
 ### Linux
 
