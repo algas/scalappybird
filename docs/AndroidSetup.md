@@ -51,7 +51,7 @@ export ANDROID_HOME=$HOME/ (DIR) /adt-bundle-linux-x86_64-20140321/sdk/
     - Mac/Linux では android コマンドで起動する。
 2. 以下にチェックを入れる。
     - Tools 以下の Android SDK Tools, Android SDK Platform-tools, Android SDK Build-tools
-    - Android 4.4.2 (API 19) 以下の SDK Platform, ARM EABI v7a System Image, Google APIs
+    - Android 4.4.2 (API 19) 以下の SDK Platform, ARM EABI v7a System Image
     - Extras 以下の Android Support Library
 3. Install * Packages をクリックしてインストールする。
 
