@@ -28,7 +28,7 @@ ANDROID_HOME=C:\Users\ (USER_NAME) \AppData\Local\Android\android-sdk
 brew install android-sdk
 ```  
 2. 環境変数で ANDROID_HOME を設定する。  
-ANDROID_HOME=/Users/(USER_NAME)/tools/android-sdk
+ANDROID_HOME=/usr/local/Cellar/android-sdk/(version)/
 
 ### Linux
 
