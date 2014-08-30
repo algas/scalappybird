@@ -16,7 +16,7 @@
 1. ターミナルを開いて適当なディレクトリを作成する。
 2. 以下のコマンドでアプリケーションを取得する。  
 ```
-git clone git@github.com:algas/scalappybird.git
+git clone git@github.com:geishatokyo/scalappybird.git
 ```
 
 
