@@ -5,7 +5,7 @@ lazy val buildSettings = Seq(
   organization := "com.geishatokyo",
   homepage := Some(url("http://www.geishatokyo.com")),
   licenses := Seq("MIT License" -> url("http://opensource.org/licenses/mit-license.php/")),
-  scalaVersion := "2.11.2",
+  scalaVersion := "2.11.5",
   scalacOptions := Seq("-deprecation", "-unchecked"),
   resolvers += Resolver.sonatypeRepo("public")
 )
