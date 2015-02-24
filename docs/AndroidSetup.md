@@ -23,11 +23,12 @@ ANDROID_HOME=C:\Users\ (USER_NAME) \AppData\Local\Android\android-sdk
 
 ### Mac OS X
 
-以下のコマンドで Android SDK をインストールします。
-
+1. 以下のコマンドで Android SDK をインストールします。
 ```
 brew install android-sdk
 ```
+2. 環境変数で ANDROID_HOME を設定する。
+ANDROID_HOME=/usr/local/Cellar/android-sdk/(version)/
 
 ### Linux
 
@@ -51,7 +52,7 @@ export ANDROID_HOME=$HOME/ (DIR) /adt-bundle-linux-x86_64-20140321/sdk/
     - Mac/Linux では android コマンドで起動する。
 2. 以下にチェックを入れる。
     - Tools 以下の Android SDK Tools, Android SDK Platform-tools, Android SDK Build-tools
-    - Android 4.4.2 (API 19) 以下の SDK Platform, ARM EABI v7a System Image, Google APIs
+    - Android 4.4.2 (API 19) 以下の SDK Platform, ARM EABI v7a System Image
     - Extras 以下の Android Support Library
 3. Install * Packages をクリックしてインストールする。
 
@@ -83,3 +84,15 @@ export ANDROID_HOME=$HOME/ (DIR) /adt-bundle-linux-x86_64-20140321/sdk/
 1. (Android SDK Tools) AVD Manager を起動する。
 2. Android Virtual Devices から起動したい AVD を選択して Start をクリックする。
 3. エミュレータウィンドウが開いてしばらく待つと Android の初期画面が表示されます。
+
+## JDKのインストール
+
+JDKの7以下のバージョンが必要です。Java8しか無い方は別途Java7をインストールし、JAVA_HOMEにインストール先のディレクトリを指定します。
+
+### Macの場合
+
+Macは標準でJava6がインストールされているので、それを使うことができます。
+
+```
+export JAVA_HOME=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home
+```

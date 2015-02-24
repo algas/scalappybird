@@ -1,4 +1,4 @@
-BT のインストール
+# SBT のインストール
 
 Scala 開発を行うために以下をインストールします。
 
@@ -27,6 +27,16 @@ sbt.msi
 ## Mac OS X 
 
 Mac では sbt-extras を使ってインストールを行います。
+
+#### brew installでsbtを入れてしまった場合
+
+brew installで入れてしまった場合、初期設定が腐っているので、コンパイル時にメモリ不足の例外が発生してしまいます。
+その場合は次の環境変数を設定すると大丈夫です。
+
+    SBT_OPTS="-Xms512M -Xmx2G -Xss1M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=512M"
+    
+
+
 
 ### JDK のインストール
 
