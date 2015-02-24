@@ -1,7 +1,7 @@
 import android.Keys._
 
 lazy val buildSettings = Seq(
-  version := "0.0.1-SNAPSHOT",
+  version := "0.0.2-SNAPSHOT",
   organization := "com.geishatokyo",
   homepage := Some(url("http://www.geishatokyo.com")),
   licenses := Seq("MIT License" -> url("http://opensource.org/licenses/mit-license.php/")),
@@ -16,5 +16,5 @@ lazy val root = (project in file(".")).
   settings(
     name := "scalappybird",
     platformTarget in Android := "android-19",
-    proguardOptions in Android ++= Seq("-dontwarn sun.misc.Unsafe")
+    proguardOptions in Android ++= Seq("-keepattributes Signature", "-dontwarn sun.misc.Unsafe", "-dontwarn scala.collection.**")
   )
